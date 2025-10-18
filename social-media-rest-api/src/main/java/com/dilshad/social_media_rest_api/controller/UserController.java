@@ -3,6 +3,7 @@ package com.dilshad.social_media_rest_api.controller;
 import com.dilshad.social_media_rest_api.Dao.UserDaoService;
 import com.dilshad.social_media_rest_api.beans.User;
 import com.dilshad.social_media_rest_api.exceptions.UserNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User savedUser=userDaoService.saveUser(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                                                   .path("/{id}")

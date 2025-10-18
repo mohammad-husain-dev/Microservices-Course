@@ -1,11 +1,16 @@
 package com.dilshad.social_media_rest_api.beans;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class User {
 
     private int id;
+    @Size(min = 2, max = 50, message = "name should be atleast 2 chararcter log")
     private String name;
+    @Past(message = "birthday can't be in future")
     private LocalDate birthday;
 
     public User(int id, String name, LocalDate birthday) {
