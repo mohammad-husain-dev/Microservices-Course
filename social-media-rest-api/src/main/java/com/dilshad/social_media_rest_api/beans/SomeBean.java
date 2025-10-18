@@ -1,9 +1,11 @@
 package com.dilshad.social_media_rest_api.beans;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"field1","field2"})
+//@JsonIgnoreProperties({"field1","field2"})
+@JsonFilter("someBeanFilter")
 public class SomeBean {
     private String field1;
     private String field2;
