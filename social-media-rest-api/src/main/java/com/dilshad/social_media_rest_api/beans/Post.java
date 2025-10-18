@@ -2,6 +2,7 @@ package com.dilshad.social_media_rest_api.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Post {
@@ -9,6 +10,7 @@ public class Post {
     @Id
     @GeneratedValue
     private int id;
+    @Size(min=10)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,11 +33,20 @@ public class Post {
         this.description = description;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
