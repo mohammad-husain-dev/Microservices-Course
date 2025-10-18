@@ -11,6 +11,9 @@ import java.time.LocalDate;
 @Entity(name = "user_details")
 public class User {
 
+    public User(){
+
+    }
     @Id
     @GeneratedValue
     private int id;
