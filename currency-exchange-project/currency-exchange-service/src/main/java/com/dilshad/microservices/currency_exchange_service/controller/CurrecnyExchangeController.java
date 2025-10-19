@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-
 @RestController
 public class CurrecnyExchangeController {
 
@@ -29,7 +27,7 @@ public class CurrecnyExchangeController {
             throw new  CurrencyExchangeNotFoundException("Currency exchange not found "+from+"-->"+to);
         }
         String port=env.getProperty("local.server.port");
-        currencyExchange.setEnv(port);
+        currencyExchange.setEnvironment(port);
         return currencyExchange;
     }
 }
