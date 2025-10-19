@@ -2,6 +2,7 @@ package com.dilshad.microservices.currency_exchange_service.controller;
 
 import com.dilshad.microservices.currency_exchange_service.beans.CurrencyExchange;
 import com.dilshad.microservices.currency_exchange_service.repository.CurrencyExchangeRepository;
+import com.dilshad.microservices.currency_exchange_service.repository.exceptions.CurrencyExchangeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class CurrecnyExchangeController {
         //CurrencyExchange currencyExchange = new CurrencyExchange(1000L, from, to, BigDecimal.valueOf(50));
         CurrencyExchange currencyExchange=currencyExchangeRepository.findByFromAndTo(from, to);
         if(currencyExchange == null) {
-            throw new RuntimeException("Currency exchange not found for: " + from + " --> " + to);
+            throw new  CurrencyExchangeNotFoundException("Currency exchange not found "+from+"-->"+to);
         }
         String port=env.getProperty("local.server.port");
         currencyExchange.setEnv(port);
