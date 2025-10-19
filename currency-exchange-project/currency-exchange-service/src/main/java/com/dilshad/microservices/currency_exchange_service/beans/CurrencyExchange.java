@@ -12,6 +12,7 @@ public class CurrencyExchange {
     private String to;
     private BigDecimal conversionMultiple;
 
+    private String env;
 
     public CurrencyExchange() {
     }
@@ -53,6 +54,14 @@ public class CurrencyExchange {
 
     public void setConversionMultiple(BigDecimal conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
+    }
+
+    public String getEnv() {
+        return env;
+    }
+
+    public void setEnv(String env) {
+        this.env = env;
     }
 
     @Override
