@@ -11,7 +11,6 @@ public class CurrencyExchange {
 //"to":"INR",
 //"conversionMultiple":65.00,
     @Id
-    @GeneratedValue
     private Long id;
 
     @Column(name = "currency_from")
