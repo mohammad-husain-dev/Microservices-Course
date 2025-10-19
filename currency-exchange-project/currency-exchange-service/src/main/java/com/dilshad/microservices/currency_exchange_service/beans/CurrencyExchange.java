@@ -1,14 +1,23 @@
 package com.dilshad.microservices.currency_exchange_service.beans;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
+@Entity
 public class CurrencyExchange {
 //"id":10001,
 //"from":"USD",
 //"to":"INR",
 //"conversionMultiple":65.00,
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column(name = "currency_from")
     private String from;
+
+    @Column(name = "currency_to")
     private String to;
     private BigDecimal conversionMultiple;
 
