@@ -2,6 +2,7 @@ package com.dilshad.microservices.currency_conversion_service.controller;
 
 import com.dilshad.microservices.currency_conversion_service.beans.CurrencyConversion;
 import com.dilshad.microservices.currency_conversion_service.proxy.CurrencyExchangeProxy;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class CurrencyConversionController {
         HashMap<String, String> uriVariables = new HashMap<>();
         uriVariables.put("from", from);
         uriVariables.put("to", to);
-        ResponseEntity<CurrencyConversion> restTemplate = new RestTemplate().getForEntity("http://localhost:8001/currency-exchange/from/{from}/to/{to}",
+        ResponseEntity<CurrencyConversion> restTemplate = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}",
                                                                          CurrencyConversion.class, uriVariables);
         CurrencyConversion currencyConversion = restTemplate.getBody();
         return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
@@ -35,6 +36,7 @@ public class CurrencyConversionController {
     }
 
     @GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
+    @CircuitBreaker(name = "currencyExchangeCircuitBreaker", fallbackMethod = "fallbackCurrencyConversion")
     public CurrencyConversion calculateCurrencyConversionFeign(@PathVariable String from,
                                                           @PathVariable String to,
                                                           @PathVariable BigDecimal quantity) {
@@ -44,5 +46,12 @@ public class CurrencyConversionController {
                 currencyConversion.getConversionMultiple(),
                 quantity.multiply(currencyConversion.getConversionMultiple()),
                 currencyConversion.getEnvironment()+" feign");
+    }
+
+    public CurrencyConversion fallbackCurrencyConversion(String from, String to, BigDecimal quantity, Throwable t) {
+        return new CurrencyConversion(0L, from, to, quantity,
+                BigDecimal.ONE,
+                quantity,
+                "fallback");
     }
 }
